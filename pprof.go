@@ -46,6 +46,9 @@ import (
 
 	"github.com/cloudwego/hertz/pkg/app/server"
 	"github.com/cloudwego/hertz/pkg/route"
+
+	"github.com/felixge/fgprof"
+
 	"github.com/hertz-contrib/pprof/adaptor"
 )
 
@@ -90,5 +93,18 @@ func RouteRegister(rg *route.RouterGroup, prefixOptions ...string) {
 		prefixRouter.GET("/heap", adaptor.NewHertzHTTPHandlerFunc(pprof.Handler("heap").ServeHTTP))
 		prefixRouter.GET("/mutex", adaptor.NewHertzHTTPHandlerFunc(pprof.Handler("mutex").ServeHTTP))
 		prefixRouter.GET("/threadcreate", adaptor.NewHertzHTTPHandlerFunc(pprof.Handler("threadcreate").ServeHTTP))
+	}
+}
+
+func FpprofRegister(r *server.Hertz, prefixOptions ...string) {
+	FpprofRouteRegister(&(r.RouterGroup), prefixOptions...)
+}
+
+func FpprofRouteRegister(rg *route.RouterGroup, prefixOptions ...string) {
+	prefix := getPrefix(prefixOptions...)
+
+	prefixRouter := rg.Group(prefix)
+	{
+		prefixRouter.GET("/", adaptor.NewHertzHTTPHandlerFunc(fgprof.Handler().ServeHTTP))
 	}
 }
