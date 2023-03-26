@@ -54,11 +54,19 @@ import (
 
 const (
 	// DefaultPrefix url prefix of pprof
-	DefaultPrefix = "/debug/pprof"
+	DefaultPrefix       = "/debug/pprof"
+	DefaultFpprofPrefix = "/debug/fpprof"
 )
 
 func getPrefix(prefixOptions ...string) string {
 	prefix := DefaultPrefix
+	if len(prefixOptions) > 0 {
+		prefix = prefixOptions[0]
+	}
+	return prefix
+}
+func getFpprofPrefix(prefixOptions ...string) string {
+	prefix := DefaultFpprofPrefix
 	if len(prefixOptions) > 0 {
 		prefix = prefixOptions[0]
 	}
@@ -101,7 +109,7 @@ func FpprofRegister(r *server.Hertz, prefixOptions ...string) {
 }
 
 func FpprofRouteRegister(rg *route.RouterGroup, prefixOptions ...string) {
-	prefix := getPrefix(prefixOptions...)
+	prefix := getFpprofPrefix(prefixOptions...)
 
 	prefixRouter := rg.Group(prefix)
 	{

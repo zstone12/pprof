@@ -56,7 +56,7 @@ func main() {
 	h := server.Default()
 
 	// default is "debug/pprof"
-	pprof.FpprofRegister(h, "dev/pprof")
+	pprof.FpprofRegister(h, "dev/fgprof")
 
 	h.GET("/ping", func(c context.Context, ctx *app.RequestContext) {
 		ctx.JSON(consts.StatusOK, utils.H{"ping": "pong"})

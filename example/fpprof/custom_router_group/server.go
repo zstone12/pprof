@@ -63,7 +63,7 @@ func main() {
 		ctx.JSON(consts.StatusOK, utils.H{"ping": "pong"})
 	})
 
-	pprof.FpprofRouteRegister(adminGroup, "pprof")
+	pprof.FpprofRouteRegister(adminGroup, "fpprof")
 
 	h.Spin()
 }
